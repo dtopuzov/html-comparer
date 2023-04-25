@@ -1,0 +1,1 @@
+export { compareHtml } from './html-comparer';
