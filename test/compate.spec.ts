@@ -1,20 +1,9 @@
 import { compareHtml } from "../src";
+import React from 'react';
+import ReactDOM from 'react-dom/server';
+import { DropdownList } from '@progress/kendo-themes-html';
 
-const expectedMarkup = `
-<span class="k-dropdownlist k-picker k-picker-md k-picker-solid k-rounded-md">
-  <span class="k-input-inner">
-    DropdownList
-  </span>
-  <button class="k-input-button k-button k-button-md k-button-solid k-button-solid-base k-icon-button">
-    <span class="k-button-icon k-svg-icon k-svg-i-caret-alt-down">
-      <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M256 352 128 160h256L256 352z">
-        </path>
-      </svg>
-    </span>
-  </button>
-</span>
-`;
+const expectedMarkup = ReactDOM.renderToStaticMarkup(React.createElement(DropdownList, {}));
 
 const jqueryMarkup = `
 <span title="" class="k-picker k-dropdownlist k-picker-solid k-picker-md k-rounded-md" unselectable="on" role="combobox">
