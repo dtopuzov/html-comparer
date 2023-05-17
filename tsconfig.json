@@ -4,8 +4,9 @@
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "target": "es2015",
-        "module": "commonjs",
+        "module": "ESNext",
         "strict": false,
+        "jsx": "react-jsx",
         "types": [
             "node",
             "jest"
@@ -17,8 +18,12 @@
         "outDir": "dist",
         "sourceMap": true,
         "declaration": true
+    },    
+    "ts-node": {
+      "esm": true,
+      "experimentalSpecifierResolution": "node"
     },
     "include": [
-        "src"
+        "src/**/*"
     ]
 }
