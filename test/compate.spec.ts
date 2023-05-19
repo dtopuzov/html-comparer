@@ -1,20 +1,8 @@
-import { compareHtml } from "../src";
+import { compareHtml, SpecToHtml } from "../src";
 
-const expectedMarkup = `
-<span class="k-dropdownlist k-picker k-picker-md k-picker-solid k-rounded-md">
-  <span class="k-input-inner">
-    DropdownList
-  </span>
-  <button class="k-input-button k-button k-button-md k-button-solid k-button-solid-base k-icon-button">
-    <span class="k-button-icon k-svg-icon k-svg-i-caret-alt-down">
-      <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M256 352 128 160h256L256 352z">
-        </path>
-      </svg>
-    </span>
-  </button>
-</span>
-`;
+import { DropdownList } from "@progress/kendo-themes-html";
+
+const expectedMarkup = SpecToHtml(DropdownList, { icon: 'foo' });
 
 const jqueryMarkup = `
 <span title="" class="k-picker k-dropdownlist k-picker-solid k-picker-md k-rounded-md" unselectable="on" role="combobox">
@@ -44,50 +32,50 @@ const angularMarkup = `
   }--><!--ng-container--><responsive-renderer ng-reflect-shared-popup-action-sheet-template="[object Object]" ng-reflect-title="" ng-reflect-show-text-input="false" ng-reflect-subtitle=""><kendo-actionsheet ng-reflect-animation="[object Object]" dir="ltr" style="--kendo-actionsheet-height: 60vh; --kendo-actionsheet-max-height: none"><!--bindings={}--></kendo-actionsheet></responsive-renderer><!--container--></kendo-dropdownlist>
 `;
 
-test('should compare exact same files', () => {
+test("should compare exact same files", () => {
   const result = compareHtml(expectedMarkup, expectedMarkup);
   expect(result.passed.length).toBe(4);
   expect(result.extra.length).toBe(0);
   expect(result.missing.length).toBe(0);
 });
 
-test('should compare dropdown with jquery implementation', () => {
+test("should compare dropdown with jquery implementation", () => {
   const result = compareHtml(jqueryMarkup, expectedMarkup);
   expect(result.passed.length).toBe(3);
   expect(result.extra.length).toBe(2);
   expect(result.missing.length).toBe(1);
 });
 
-test('should compare dropdown with angular implementation', () => {
+test("should compare dropdown with angular implementation", () => {
   const result = compareHtml(angularMarkup, expectedMarkup);
   expect(result.passed.length).toBe(3);
   expect(result.extra.length).toBe(3);
   expect(result.missing.length).toBe(1);
 });
 
-test('should be able to pass empty ignore list', () => {
-  const result = compareHtml(angularMarkup, expectedMarkup, { allowExtra: [], allowMissing: [] });
+test("should be able to pass empty ignore list", () => {
+  const result = compareHtml(angularMarkup, expectedMarkup, {
+    allowExtra: [],
+    allowMissing: [],
+  });
   expect(result.passed.length).toBe(3);
   expect(result.extra.length).toBe(3);
   expect(result.missing.length).toBe(1);
 });
 
-test('should be able to ignore missing elements using full path', () => {
+test("should be able to ignore missing elements using full path", () => {
   const result = compareHtml(angularMarkup, expectedMarkup, {
     allowMissing: [
-      '.k-dropdownlist.k-picker.k-picker-md.k-picker-solid.k-rounded-md .k-button.k-button-md.k-button-solid.k-button-solid-base.k-icon-button.k-input-button .k-button-icon.k-svg-i-caret-alt-down.k-svg-icon'
-    ]
+      ".k-dropdownlist.k-picker.k-picker-md.k-picker-solid.k-rounded-md .k-button.k-button-md.k-button-solid.k-button-solid-base.k-icon-button.k-input-button .k-button-icon.k-svg-i-caret-alt-down.k-svg-icon",
+    ],
   });
 
   expect(result.missing).toEqual([]);
 });
 
-
-test('should be able to ignore missing elements by partial css selector', () => {
+test("should be able to ignore missing elements by partial css selector", () => {
   const result = compareHtml(angularMarkup, expectedMarkup, {
-    allowMissing: [
-      '.k-button-icon.k-svg-i-caret-alt-down.k-svg-icon'
-    ]
+    allowMissing: [".k-button-icon.k-svg-i-caret-alt-down.k-svg-icon"],
   });
 
   expect(result.missing).toEqual([]);
